@@ -80,7 +80,7 @@
         const loader = new GLTFLoader();
         const loaderElement = document.getElementById('loader');
         loader.load(
-            'assets/models/final5.glb',
+            'assets/models/final6.glb',
             (gltf) => {
                 
                 model = gltf.scene;  
@@ -95,7 +95,7 @@
                     { name: "Airfrens",  targetOffset: new THREE.Vector3(-5, 1, 0),    cameraPosition: new THREE.Vector3(5, 5, -50) },
                     { name: "Kylabs",    targetOffset: new THREE.Vector3(-6, 1, 2),   cameraPosition: new THREE.Vector3(90, 5, -50) },
                     { name: "Cox",       targetOffset: new THREE.Vector3(-6, 1, 1),    cameraPosition: new THREE.Vector3(200, 5, -50) },
-                    { name: "Laptop",    targetOffset: new THREE.Vector3(-7, 1, 0),    cameraPosition: new THREE.Vector3(300, 12, -40) },
+                    { name: "Monitor",    targetOffset: new THREE.Vector3(-7, 1, 0),    cameraPosition: new THREE.Vector3(300, 12, -40) },
                     { name: "GameStand", targetOffset: new THREE.Vector3(-10, 4, 0),    cameraPosition: new THREE.Vector3(400, 5, -40) },
                 ];
                 const productNames = productsWithOffsets.map(p => p.name);;
