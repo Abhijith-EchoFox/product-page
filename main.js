@@ -139,7 +139,11 @@
         
         parallaxGroup.add(model);
         scene.add(parallaxGroup);
-        window.addEventListener('wheel', onWheel, { passive: false });
+        //window.addEventListener('wheel', onWheel, { passive: false });
+        // --- MODIFIED ---
+        // Listen for the wheel event directly on the canvas, not the whole window.
+        // The { passive: false } option is crucial to allow us to call event.preventDefault().
+        renderer.domElement.addEventListener('wheel', onWheel, { passive: false });
         window.addEventListener('resize', onResize);
         window.addEventListener('mousemove', onMouseMove); // Listener for the new parallax effect
     }
@@ -216,21 +220,59 @@
                 // });
     }
     // --- NEW: SCROLL HANDLING FUNCTION ---
-    function onWheel(event) {
-        if (isAnimating || productTargets.length === 0) return; // Ignore scroll if an animation is playing
+    // function onWheel(event) {
+    //     if (isAnimating || productTargets.length === 0) return; // Ignore scroll if an animation is playing
 
-        // Determine scroll direction
+    //     // Determine scroll direction
+    //     const scrollDirection = event.deltaY > 0 ? 1 : -1;
+
+    //     currentTargetIndex += scrollDirection;
+
+    //     // Loop back around if we go past the start or end
+    //     if (currentTargetIndex >= productTargets.length) {
+    //         currentTargetIndex = 0;
+    //     } else if (currentTargetIndex < 0) {
+    //         currentTargetIndex = productTargets.length - 1;
+    //     }
+        
+    //     focusCameraOnTarget(currentTargetIndex);
+    // }
+    // --- MODIFIED: REWRITTEN SCROLL HANDLING LOGIC ---
+    function onWheel(event) {
+        // If there are no products to scroll to, do nothing.
+        if (productTargets.length === 0) return;
+
         const scrollDirection = event.deltaY > 0 ? 1 : -1;
 
-        currentTargetIndex += scrollDirection;
+        // --- BOUNDARY CHECK ---
+        // This is the core of the solution. We check if the user is at the
+        // beginning and scrolling up, or at the end and scrolling down.
+        const isAtFirstAndScrollingUp = (currentTargetIndex === 0 && scrollDirection === -1);
+        const isAtLastAndScrollingDown = (currentTargetIndex === productTargets.length - 1 && scrollDirection === 1);
 
-        // Loop back around if we go past the start or end
-        if (currentTargetIndex >= productTargets.length) {
-            currentTargetIndex = 0;
-        } else if (currentTargetIndex < 0) {
-            currentTargetIndex = productTargets.length - 1;
+        if (isAtFirstAndScrollingUp || isAtLastAndScrollingDown) {
+            // If we are at a boundary, we DON'T call event.preventDefault().
+            // This allows the event to "bubble up" and scroll the main Framer page.
+            // We simply return and do nothing to the Three.js scene.
+            return;
         }
+
+        // --- CAPTURE THE SCROLL ---
+        // If we are not at a boundary, we are "inside" the 3D experience.
+        // We MUST prevent the default action to stop the main page from scrolling.
+        event.preventDefault();
+
+        // If an animation is already running, ignore this scroll event but
+        // keep the page scroll prevented.
+        if (isAnimating) return;
+
+        // Update the index to move to the next or previous product.
+        currentTargetIndex += scrollDirection;
         
+        // Note: We no longer need the logic to "loop back around" because
+        // we want the scroll to exit at the ends.
+
+        // Trigger the animation to focus on the new target.
         focusCameraOnTarget(currentTargetIndex);
     }
     function onResize() {
