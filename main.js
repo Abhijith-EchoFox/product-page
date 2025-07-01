@@ -92,12 +92,12 @@
                 // Replace the names in the array below with the EXACT names of your product objects from your 3D modeling software (e.g., Blender).
                 // 'cameraPosition': The EXACT position the camera MOVES to.
                 const productsWithOffsets = [
-                    { name: "Airfrens",  targetOffset: new THREE.Vector3(-5, 1, 0),    cameraPosition: new THREE.Vector3(5, 5, -50) },
-                    { name: "Kylabs",    targetOffset: new THREE.Vector3(-6, 1, 2),   cameraPosition: new THREE.Vector3(90, 5, -50) },
-                    { name: "Cox",       targetOffset: new THREE.Vector3(-6, 1, 1),    cameraPosition: new THREE.Vector3(200, 5, -50) },
-                    { name: "Monitor",    targetOffset: new THREE.Vector3(-7, 1, 0),    cameraPosition: new THREE.Vector3(300, 12, -40) },
-                    { name: "Games", targetOffset: new THREE.Vector3(-7, 4, 0),    cameraPosition: new THREE.Vector3(400, 5, -40) },
-                    { name: "vcard", targetOffset: new THREE.Vector3(-7, 4, 0),    cameraPosition: new THREE.Vector3(500, 5, -40) }
+                    { name: "Airfrens",  targetOffset: new THREE.Vector3(-3.5,0, 0),    cameraPosition: new THREE.Vector3(5, 5, -55) },
+                    { name: "Kylabs",    targetOffset: new THREE.Vector3(-5, 0, 2),   cameraPosition: new THREE.Vector3(90, 5, -60) },
+                    { name: "Cox",       targetOffset: new THREE.Vector3(-3, 0, 1),    cameraPosition: new THREE.Vector3(200, 5, -58) },
+                    { name: "Monitor",    targetOffset: new THREE.Vector3(-5, -1.5, 0),    cameraPosition: new THREE.Vector3(300, 5, -52) },
+                    { name: "Games", targetOffset: new THREE.Vector3(-5, 0, 0),    cameraPosition: new THREE.Vector3(400, 5, -54) },
+                    { name: "vcard", targetOffset: new THREE.Vector3(-4, 3.5, 0),    cameraPosition: new THREE.Vector3(500, 5, -55) }
                 ];
                 const productNames = productsWithOffsets.map(p => p.name);;
                 //console.log("Loaded model's children:");
