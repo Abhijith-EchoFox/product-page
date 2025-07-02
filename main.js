@@ -80,7 +80,7 @@
         const loader = new GLTFLoader();
         const loaderElement = document.getElementById('loader');
         loader.load(
-            'assets/models/final7.glb',
+            'assets/models/final10.glb',
             (gltf) => {
                 
                 model = gltf.scene;  
