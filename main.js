@@ -12,6 +12,11 @@
     const mouse = new THREE.Vector2(); // Stores normalized mouse coordinates
     let baseCameraPosition = new THREE.Vector3(); // Stores the initial camera position for parallax calculations
     const parallaxGroup = new THREE.Group();
+    // --- DOM element references for the text overlay ---
+    const textContainer = document.getElementById('text-container');
+    const productTitle = document.getElementById('product-title');
+    const productDescription = document.getElementById('product-description');
+    const productLink = document.getElementById('product-link');
 
 
     init();
@@ -91,15 +96,15 @@
                 // We traverse the loaded model to find the items you want to focus on.
                 // Replace the names in the array below with the EXACT names of your product objects from your 3D modeling software (e.g., Blender).
                 // 'cameraPosition': The EXACT position the camera MOVES to.
-                const productsWithOffsets = [
-                    { name: "Airfrens",  targetOffset: new THREE.Vector3(-3.5,0, 0),    cameraPosition: new THREE.Vector3(5, 5, -55) },
-                    { name: "Kylabs",    targetOffset: new THREE.Vector3(-5, 0, 2),   cameraPosition: new THREE.Vector3(90, 5, -60) },
-                    { name: "Cox",       targetOffset: new THREE.Vector3(-3, 0, 1),    cameraPosition: new THREE.Vector3(200, 5, -58) },
-                    { name: "Monitor",    targetOffset: new THREE.Vector3(-5, -1.5, 0),    cameraPosition: new THREE.Vector3(300, 5, -52) },
-                    { name: "Games", targetOffset: new THREE.Vector3(-5, 0, 0),    cameraPosition: new THREE.Vector3(400, 5, -54) },
-                    { name: "vcard", targetOffset: new THREE.Vector3(-4, 3.5, 0),    cameraPosition: new THREE.Vector3(500, 5, -55) }
-                ];
-                const productNames = productsWithOffsets.map(p => p.name);;
+                const productsWithData = [
+                { name: "Airfrens", targetOffset: new THREE.Vector3(-3.5, 0, 0), cameraPosition: new THREE.Vector3(5, 5, -55), title: "Airfrens", description: "A mobile Web3 dating app designed around on-chain identity.", link: "#" },
+                { name: "Kylabs", targetOffset: new THREE.Vector3(-5, 0, 2), cameraPosition: new THREE.Vector3(90, 5, -60), title: "Kylabs", description: "Direct-to-fan, Live ticketing Web App, built on aptos blockchain.", link: "#" },
+                { name: "Cox", targetOffset: new THREE.Vector3(-3, 0, 1), cameraPosition: new THREE.Vector3(200, 5, -58), title: "Cox&kings", description: "Mobile app design for one of the world’ oldest travel companies.", link: "#" },
+                { name: "Monitor", targetOffset: new THREE.Vector3(-5, -1.5, 0), cameraPosition: new THREE.Vector3(300, 5, -52), title: "Stevie Awards", description: "Re-designed the website for one of the most recognized awards in business.", link: "#" },
+                { name: "Games", targetOffset: new THREE.Vector3(-5, 0, 0), cameraPosition: new THREE.Vector3(400, 5, -54), title: "Games", description: "Interactive and engaging gaming experiences built with modern web technologies.", link: "#" },
+                { name: "vcard", targetOffset: new THREE.Vector3(-4, 3.5, 0), cameraPosition: new THREE.Vector3(500, 5, -55), title: "vCard", description: "A digital business card to share your contact information seamlessly.", link: "#" }
+            ];
+                const productNames = productsWithData.map(p => p.name);;
                 //console.log("Loaded model's children:");
                 model.traverse((child) => {
                     console.log(child.name); // This log helps you find the correct names!
@@ -108,10 +113,10 @@
                     child.receiveShadow = true;
                     }
                     // If a child's name is in our list, add it to our targets array.
-                    const productData = productsWithOffsets.find(p => p.name === child.name);
+                    const productData = productsWithData.find(p => p.name === child.name);
                     if (productData) {
                         // Store the object and its offset together
-                        productTargets.push({ object: child, targetOffset: productData.targetOffset,cameraPosition:productData.cameraPosition });
+                        productTargets.push({ object: child, ...productData });
                         
                     }
                 });
@@ -120,6 +125,7 @@
                 productTargets.sort((a, b) => productNames.indexOf(a.object.name) - productNames.indexOf(b.object.name));
                 //console.log(productTargets,"productTargets");
                 scene.add(model);
+                
                 // Hide the loader and set the initial camera position
                 //loaderElement.style.display = 'none';
                 if (productTargets.length > 0) {
@@ -130,6 +136,7 @@
                     camera.position.set(0, 5, 20);
                     controls.target.set(0, 0, 0);
                 }
+                
             },
             undefined,
             (error) => {
@@ -148,76 +155,68 @@
         window.addEventListener('mousemove', onMouseMove); // Listener for the new parallax effect
     }
 
+    /**
+     * Updates the text content in the HTML and makes it visible.
+     * @param {number} index The index of the product to display.
+     */
+    function updateTextContent(index) {
+        if (!productTargets[index]) return;
+        const { title, description, link } = productTargets[index];
+        productTitle.textContent = title;
+        productDescription.textContent = description;
+        productLink.href = link;
+        textContainer.classList.add('is-visible');
+    }
+
     // --- NEW: CAMERA ANIMATION FUNCTION ---
     function focusCameraOnTarget(targetIndex, duration = 2) { // Default duration of 1.2 seconds
         if (isAnimating && duration > 0) return;
-                isAnimating = true;
+        isAnimating = true;
+        // Fade out the current text
+        textContainer.classList.remove('is-visible');
 
-                const { object, targetOffset,cameraPosition } = productTargets[targetIndex];
-                const targetPosition = new THREE.Vector3();
-                object.getWorldPosition(targetPosition);
+        const { object, targetOffset,cameraPosition } = productTargets[targetIndex];
+        const targetPosition = new THREE.Vector3();
+        object.getWorldPosition(targetPosition);
 
-                // --- APPLY THE OFFSET ---
-                // The final camera target is the object's position plus its defined offset
-                const finalTarget = new THREE.Vector3().addVectors(targetPosition,  targetOffset);
-                console.log(cameraPosition," cameraOffset")
-                // --- DUAL GSAP ANIMATION ---
-                // Animate camera position and target simultaneously for a smooth, cinematic effect.
-                const tl = gsap.timeline({
-                    onComplete: () => { isAnimating = false; 
-                        baseCameraPosition = cameraPosition;
-                        console.log(baseCameraPosition," baseCameraPosition")
-                    }
-                });
+        // --- APPLY THE OFFSET ---
+        // The final camera target is the object's position plus its defined offset
+        const finalTarget = new THREE.Vector3().addVectors(targetPosition,  targetOffset);
+        console.log(cameraPosition," cameraOffset")
+        // --- DUAL GSAP ANIMATION ---
+        // Animate camera position and target simultaneously for a smooth, cinematic effect.
+        const tl = gsap.timeline({
+            onComplete: () => { isAnimating = false; 
+                baseCameraPosition = cameraPosition;
+                console.log(baseCameraPosition," baseCameraPosition");
+                // After the camera move, fade in the new text
+                if (duration > 0) {
+                    updateTextContent(targetIndex);
+                }
+            }
+        });
 
-                tl.to(camera.position, {
-                    x: cameraPosition.x,
-                    y: cameraPosition.y,
-                    z: cameraPosition.z,
-                    duration: duration,
-                    ease: "power2.outIn"
-                }, 0); // The '0' at the end makes it start at the same time as the next animation
+        tl.to(camera.position, {
+            x: cameraPosition.x,
+            y: cameraPosition.y,
+            z: cameraPosition.z,
+            duration: duration,
+            ease: "power2.outIn"
+        }, 0); // The '0' at the end makes it start at the same time as the next animation
 
-                tl.to(controls.target, {
-                    x: finalTarget.x,
-                    y: finalTarget.y,
-                    z: finalTarget.z,
-                    duration: duration,
-                    ease: "power2.outIn"
-                }, 0); // Starts at the beginning of the timeline
-                // gsap.to(camera.position, {
-                //     x: cameraOffset.x,
-                //     y: cameraOffset.y,
-                //     z: cameraOffset.z,
-                //     duration,
-                //     ease: "power3.inOut"
-                // });
-                // console.log(camera.position," camera.position")
+        tl.to(controls.target, {
+            x: finalTarget.x,
+            y: finalTarget.y,
+            z: finalTarget.z,
+            duration: duration,
+            ease: "power2.outIn"
+        }, 0); 
 
-                // // Use GSAP for a smooth animation of the OrbitControls target
-                // gsap.to(controls.target, {
-                //     x: finalTarget.x,
-                //     y: finalTarget.y,
-                //     z: finalTarget.z,
-                //     duration: duration,
-                //     ease: "power3.inOut",
-                //     onComplete: () => {
-                //         //isAnimating = false;
-                //         // --- SECONDARY "SETTLE" ANIMATION ---
-                // // After the main animation, create a subtle movement for polish.
-                // if (duration > 0) {
-                //     gsap.to(controls.target, {
-                //         x: `+=${Math.random() * 0.4 - 0.2}`, // Move slightly on x
-                //         y: `+=${Math.random() * 0.4 - 0.2}`, // Move slightly on y
-                //         duration: 0.8,
-                //         ease: "power2.out",
-                //         onComplete: () => { isAnimating = false; }
-                //     });
-                // } else {
-                //     isAnimating = false;
-                // }
-                //     }
-                // });
+        // Handle the initial page load (no animation duration)
+        if (duration === 0) {
+            updateTextContent(targetIndex);
+            isAnimating = false;
+        }
     }
     // --- NEW: SCROLL HANDLING FUNCTION ---
     // function onWheel(event) {
@@ -254,6 +253,7 @@
             // If we are at a boundary, we DON'T call event.preventDefault().
             // This allows the event to "bubble up" and scroll the main Framer page.
             // We simply return and do nothing to the Three.js scene.
+            if(!isAnimating)
             return;
         }
 
