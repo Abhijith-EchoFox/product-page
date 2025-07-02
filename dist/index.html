@@ -1,28 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>product-page</title>
-  <style>
-    /* Make body & html fill the screen, remove default margin */
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-    /* The canvas will fill the entire viewport */
-    #three-canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
-  <script type="module" crossorigin src="/product-page/assets/index-Dm6V1HSn.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Product Showcase</title>
+    <style>
+        /* --- General Setup --- */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevent scrollbars on the page */
+            background-color: #111; /* A dark background color */
+        }
+
+        /* The canvas will be positioned by the script */
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Canvas is the base layer */
+        }
+        
+        /* --- Custom Font Loading --- */
+        @font-face {
+            font-family: 'Redcollar';
+            src: url('assets/fonts/Redcollar_Regular.woff2') format('woff2'); /* Assumes .woff2 format */
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* --- NEW: Added font-face for the description font --- */
+        @font-face {
+            font-family: 'OttercoDisplay-Medium';
+            src: url('assets/fonts/OttercoDisplay-Medium.woff2') format('woff2'); /* Assumes .woff2 format */
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* --- Text Overlay Styles --- */
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            color: white;
+            max-width: 400px;
+            z-index: 10; /* Ensure text is on top of the canvas */
+            pointer-events: none; /* Allow mouse events (like orbit controls) to pass through */
+        }
+
+        /* --- MODIFIED: Added transform for the slide animation --- */
+        .text-content {
+            opacity: 0;
+            /* Start the text slightly lower than its final position */
+            transform: translateY(20px); 
+            /* Animate both opacity and transform for a smooth fade and slide */
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        /* --- MODIFIED: When visible, move text to its final position --- */
+        .text-content.is-visible {
+            opacity: 1;
+            /* Move the text to its original, centered position */
+            transform: translateY(0);
+        }
+
+        .text-content h1 {
+            font-family: 'Redcollar', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 3.5rem;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+
+        /* --- MODIFIED: Applied the new font to the description --- */
+        .text-content p {
+            font-family: 'OttercoDisplay-Medium', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0 0 2rem 0;
+            max-width: 350px;
+        }
+
+        .text-content a.explore-link {
+            font-family: 'Redcollar', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            border: 1px solid white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            pointer-events: all; /* Make ONLY the link clickable */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .text-content a.explore-link:hover {
+            background-color: white;
+            color: black;
+        }
+    </style>
+  <script type="module" crossorigin src="/product-page/assets/index-BDIOAdoq.js"></script>
 </head>
 <body>
-
+
+    <!-- This div is the container for all the text content -->
+    <div class="text-overlay">
+        <div id="text-container" class="text-content">
+            <h1 id="product-title"></h1>
+            <p id="product-description"></p>
+            <a href="#" id="product-link" class="explore-link" target="_blank">Explore</a>
+        </div>
+    </div>
+
+    <!-- The main.js script will create and manage the 3D canvas -->
+
 </body>
 </html>

@@ -98,7 +98,7 @@
                 // 'cameraPosition': The EXACT position the camera MOVES to.
                 const productsWithData = [
                 { name: "Airfrens", targetOffset: new THREE.Vector3(-3.5, 0, 0), cameraPosition: new THREE.Vector3(5, 5, -55), title: "Airfrens", description: "A mobile Web3 dating app designed around on-chain identity.", link: "#" },
-                { name: "Kylabs", targetOffset: new THREE.Vector3(-5, 0, 2), cameraPosition: new THREE.Vector3(90, 5, -60), title: "Kylabs", description: "Direct-to-fan, Live ticketing Web App, built on aptos blockchain.", link: "#" },
+                { name: "Kylabs", targetOffset: new THREE.Vector3(-5, 0, 2), cameraPosition: new THREE.Vector3(90, 5, -60), title: "Kydlabs", description: "Direct-to-fan, Live ticketing Web App, built on aptos blockchain.", link: "#" },
                 { name: "Cox", targetOffset: new THREE.Vector3(-3, 0, 1), cameraPosition: new THREE.Vector3(200, 5, -58), title: "Cox&kings", description: "Mobile app design for one of the world’ oldest travel companies.", link: "#" },
                 { name: "Monitor", targetOffset: new THREE.Vector3(-5, -1.5, 0), cameraPosition: new THREE.Vector3(300, 5, -52), title: "Stevie Awards", description: "Re-designed the website for one of the most recognized awards in business.", link: "#" },
                 { name: "Games", targetOffset: new THREE.Vector3(-5, 0, 0), cameraPosition: new THREE.Vector3(400, 5, -54), title: "Games", description: "Interactive and engaging gaming experiences built with modern web technologies.", link: "#" },
