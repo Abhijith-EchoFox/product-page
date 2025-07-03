@@ -46,7 +46,7 @@
             left: 10%;
             transform: translateY(-50%);
             color: white;
-            max-width: 400px;
+            max-width: 550px;
             z-index: 10; /* Ensure text is on top of the canvas */
             pointer-events: none; /* Allow mouse events (like orbit controls) to pass through */
         }
@@ -68,7 +68,7 @@
             align-items: center;
             font-family: 'OttercoDisplay-Regular', sans-serif;
             font-size: 0.9rem;
-            text-transform: uppercase;
+            text-transform: lowercase;
             letter-spacing: 1px;
             margin-bottom: 1.5rem;
         }
@@ -85,17 +85,25 @@
 
         .text-content h1 {
             font-family: 'Redcollar', sans-serif;
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin: 0 0 1rem 0;
             font-weight: 600;
             letter-spacing: -1px;
+            white-space: nowrap;
         }
 
-        .text-content p {
+        .text-content #product-description {
             font-family: 'OttercoDisplay-Regular', sans-serif;
             font-size: 1.1rem;
             line-height: 1.6;
-            margin: 0 0 2rem 0;
+            margin: 0 0 3.5rem 0; 
+            max-width: 350px;
+        }
+        .text-content #product-category {
+            font-family: 'OttercoDisplay-Regular', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0 0 1.6rem 0; 
             max-width: 350px;
         }
 
@@ -131,7 +139,7 @@
         }
 
         a.explore-link:hover {
-            border-bottom-color: white; /* Change border color on hover */
+            border-bottom-color: transparent; 
         }
 
         a.explore-link:hover::after {

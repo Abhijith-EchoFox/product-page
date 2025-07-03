@@ -103,7 +103,7 @@
                 { name: "Cox", targetOffset: new THREE.Vector3(-3, 0, 1), cameraPosition: new THREE.Vector3(200, 5, -58), category: "Branding", title: "Cox & Kings", description: "A project focused on delivering high-quality digital experiences and interfaces.", link: "#" },
                 { name: "Monitor", targetOffset: new THREE.Vector3(-5, -1.5, 0), cameraPosition: new THREE.Vector3(300, 5, -52), category: "Web App", title: "Stevie Awards", description: "Advanced monitoring solutions for complex systems, providing real-time data and insights.", link: "#" },
                 { name: "Games", targetOffset: new THREE.Vector3(-5, 0, 0), cameraPosition: new THREE.Vector3(400, 5, -54), category: "Gaming", title: "Trails of Echos", description: "Interactive and engaging gaming experiences built with modern web technologies.", link: "#" },
-                { name: "vcard", targetOffset: new THREE.Vector3(-4, 3.5, 0), cameraPosition: new THREE.Vector3(500, 5, -55), category: "Utility", title: "vCard", description: "A digital business card to share your contact information seamlessly.", link: "#" }
+                { name: "vcard", targetOffset: new THREE.Vector3(-4, 3.5, 0), cameraPosition: new THREE.Vector3(500, 5, -55), category: "Utility", title: "Luxury Escapades", description: "A digital business card to share your contact information seamlessly.", link: "#" }
             ];
                 const productNames = productsWithData.map(p => p.name);;
                 //console.log("Loaded model's children:");
