@@ -19,6 +19,9 @@
     const productDescription = document.getElementById('product-description');
     const productLink = document.getElementById('product-link');
 
+    // --- NEW: State variable to control when scroll hijacking is active ---
+    let isScrollHijackingActive = false;
+
 
     init();
     animate();
@@ -144,9 +147,27 @@
                 console.error('Error loading glTF model:', error);
             }
         );
+        // --- NEW: Intersection Observer Setup ---
+        // This observer will watch the canvas element.
+        const observerOptions = {
+        root: null, // observes intersections relative to the viewport
+        rootMargin: '0px',
+        threshold: 1.0 // Trigger callback when 100% of the element is visible
+        };
+
+        const intersectionCallback = (entries) => {
+        entries.forEach(entry => {
+            // If entry.isIntersecting is true, the canvas is fully in view.
+            isScrollHijackingActive = entry.isIntersecting;
+        });
+        };
         
         parallaxGroup.add(model);
         scene.add(parallaxGroup);
+
+        const observer = new IntersectionObserver(intersectionCallback, observerOptions);
+        // Tell the observer to start watching the renderer's canvas.
+        observer.observe(renderer.domElement);
         //window.addEventListener('wheel', onWheel, { passive: false });
         // --- MODIFIED ---
         // Listen for the wheel event directly on the canvas, not the whole window.
@@ -240,6 +261,11 @@
     // }
     // --- MODIFIED: REWRITTEN SCROLL HANDLING LOGIC ---
     function onWheel(event) {
+        // 1. Check if scroll hijacking should be active.
+        // If the canvas isn't fully in view, do nothing and let the parent page scroll.
+        if (!isScrollHijackingActive) {
+            return;
+        }
         // If there are no products to scroll to, do nothing.
         if (productTargets.length === 0) return;
 
