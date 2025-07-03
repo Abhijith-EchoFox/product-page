@@ -152,7 +152,7 @@
         const observerOptions = {
         root: null, // observes intersections relative to the viewport
         rootMargin: '0px',
-        threshold: 1.0 // Trigger callback when 100% of the element is visible
+        threshold: 0.8 // Trigger callback when 100% of the element is visible
         };
 
         const intersectionCallback = (entries) => {
