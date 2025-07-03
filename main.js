@@ -14,6 +14,7 @@
     const parallaxGroup = new THREE.Group();
     // --- DOM element references for the text overlay ---
     const textContainer = document.getElementById('text-container');
+    const productCategory = document.getElementById('product-category');
     const productTitle = document.getElementById('product-title');
     const productDescription = document.getElementById('product-description');
     const productLink = document.getElementById('product-link');
@@ -97,12 +98,12 @@
                 // Replace the names in the array below with the EXACT names of your product objects from your 3D modeling software (e.g., Blender).
                 // 'cameraPosition': The EXACT position the camera MOVES to.
                 const productsWithData = [
-                { name: "Airfrens", targetOffset: new THREE.Vector3(-3.5, 0, 0), cameraPosition: new THREE.Vector3(5, 5, -55), title: "Airfrens", description: "A mobile Web3 dating app designed around on-chain identity.", link: "#" },
-                { name: "Kylabs", targetOffset: new THREE.Vector3(-5, 0, 2), cameraPosition: new THREE.Vector3(90, 5, -60), title: "Kydlabs", description: "Direct-to-fan, Live ticketing Web App, built on aptos blockchain.", link: "#" },
-                { name: "Cox", targetOffset: new THREE.Vector3(-3, 0, 1), cameraPosition: new THREE.Vector3(200, 5, -58), title: "Cox&kings", description: "Mobile app design for one of the world’ oldest travel companies.", link: "#" },
-                { name: "Monitor", targetOffset: new THREE.Vector3(-5, -1.5, 0), cameraPosition: new THREE.Vector3(300, 5, -52), title: "Stevie Awards", description: "Re-designed the website for one of the most recognized awards in business.", link: "#" },
-                { name: "Games", targetOffset: new THREE.Vector3(-5, 0, 0), cameraPosition: new THREE.Vector3(400, 5, -54), title: "Games", description: "Interactive and engaging gaming experiences built with modern web technologies.", link: "#" },
-                { name: "vcard", targetOffset: new THREE.Vector3(-4, 3.5, 0), cameraPosition: new THREE.Vector3(500, 5, -55), title: "vCard", description: "A digital business card to share your contact information seamlessly.", link: "#" }
+                { name: "Airfrens", targetOffset: new THREE.Vector3(-3.5, 0, 0), cameraPosition: new THREE.Vector3(5, 5, -55), category: "Web3", title: "Airfrens", description: "Social media web 3 dating app, build from scratch. A new way to connect with people who share your passions.", link: "#" },
+                { name: "Kylabs", targetOffset: new THREE.Vector3(-5, 0, 2), cameraPosition: new THREE.Vector3(90, 5, -60), category: "Mobile App", title: "Kydlabs", description: "Built for the top performing DJs, Promoters, Venues, Festivals and Artists.", link: "#" },
+                { name: "Cox", targetOffset: new THREE.Vector3(-3, 0, 1), cameraPosition: new THREE.Vector3(200, 5, -58), category: "Branding", title: "Cox & Kings", description: "A project focused on delivering high-quality digital experiences and interfaces.", link: "#" },
+                { name: "Monitor", targetOffset: new THREE.Vector3(-5, -1.5, 0), cameraPosition: new THREE.Vector3(300, 5, -52), category: "Web App", title: "Stevie Awards", description: "Advanced monitoring solutions for complex systems, providing real-time data and insights.", link: "#" },
+                { name: "Games", targetOffset: new THREE.Vector3(-5, 0, 0), cameraPosition: new THREE.Vector3(400, 5, -54), category: "Gaming", title: "Trails of Echos", description: "Interactive and engaging gaming experiences built with modern web technologies.", link: "#" },
+                { name: "vcard", targetOffset: new THREE.Vector3(-4, 3.5, 0), cameraPosition: new THREE.Vector3(500, 5, -55), category: "Utility", title: "vCard", description: "A digital business card to share your contact information seamlessly.", link: "#" }
             ];
                 const productNames = productsWithData.map(p => p.name);;
                 //console.log("Loaded model's children:");
@@ -161,15 +162,16 @@
      */
     function updateTextContent(index) {
         if (!productTargets[index]) return;
-        const { title, description, link } = productTargets[index];
+        const { title,category, description, link } = productTargets[index];
         productTitle.textContent = title;
+        productCategory.textContent = category;
         productDescription.textContent = description;
         productLink.href = link;
         textContainer.classList.add('is-visible');
     }
 
     // --- NEW: CAMERA ANIMATION FUNCTION ---
-    function focusCameraOnTarget(targetIndex, duration = 2) { // Default duration of 1.2 seconds
+    function focusCameraOnTarget(targetIndex, duration = 1.5) { // Default duration of 1.2 seconds
         if (isAnimating && duration > 0) return;
         isAnimating = true;
         // Fade out the current text
@@ -201,7 +203,7 @@
             y: cameraPosition.y,
             z: cameraPosition.z,
             duration: duration,
-            ease: "power2.outIn"
+            ease: "power2.out"
         }, 0); // The '0' at the end makes it start at the same time as the next animation
 
         tl.to(controls.target, {
@@ -209,7 +211,7 @@
             y: finalTarget.y,
             z: finalTarget.z,
             duration: duration,
-            ease: "power2.outIn"
+            ease: "power2.out"
         }, 0); 
 
         // Handle the initial page load (no animation duration)
