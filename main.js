@@ -147,25 +147,38 @@
                 console.error('Error loading glTF model:', error);
             }
         );
-        // --- NEW: Intersection Observer Setup ---
-        // This observer will watch the canvas element.
+        // --- Intersection Observer Setup ---
         const observerOptions = {
-        root: null, // observes intersections relative to the viewport
+        root: null, 
         rootMargin: '0px',
-        threshold: 0.8 // Trigger callback when 100% of the element is visible
+        threshold: 0.80
         };
 
+        // --- MODIFIED: The observer callback now handles auto-centering ---
         const intersectionCallback = (entries) => {
         entries.forEach(entry => {
-            // If entry.isIntersecting is true, the canvas is fully in view.
-            isScrollHijackingActive = entry.isIntersecting;
+            if (entry.isIntersecting) {
+                // If the canvas is intersecting AND we haven't already taken control...
+                if (!isScrollHijackingActive) {
+                    // ...take control...
+                    isScrollHijackingActive = true;
+                    // ...and tell the browser to smoothly scroll the element to the center.
+                    entry.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } else {
+                // If the canvas is no longer intersecting, release control.
+                isScrollHijackingActive = false;
+            }
         });
         };
+
+        const observer = new IntersectionObserver(intersectionCallback, observerOptions);
+        observer.observe(renderer.domElement);
         
         parallaxGroup.add(model);
         scene.add(parallaxGroup);
 
-        const observer = new IntersectionObserver(intersectionCallback, observerOptions);
+        
         // Tell the observer to start watching the renderer's canvas.
         observer.observe(renderer.domElement);
         //window.addEventListener('wheel', onWheel, { passive: false });
