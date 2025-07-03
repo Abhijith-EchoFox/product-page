@@ -151,7 +151,7 @@
         const observerOptions = {
         root: null, 
         rootMargin: '0px',
-        threshold: 0.40
+        threshold: 0.10
         };
 
         // --- MODIFIED: The observer callback now handles auto-centering ---
