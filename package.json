@@ -1,6 +1,6 @@
 {
   "name": "product-page",
-  "homepage": "https://abhijith-echofox.github.io/product-page/",
+  "homepage": "https://EchofoxdesignLabs.github.io/product-page/",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist -r https://github.com/Abhijith-EchoFox/product-page.git -f"
+    "deploy": "gh-pages -d dist -r https://github.com/EchofoxdesignLabs/product-page.git -f"
   },
   "dependencies": {
     "gh-pages": "^6.3.0",
