@@ -89,7 +89,7 @@
         const loader = new GLTFLoader();
         const loaderElement = document.getElementById('loader');
         loader.load(
-            'assets/models/final10.glb',
+            'assets/models/bakedfinal12.glb',
             (gltf) => {
                 
                 model = gltf.scene;  
@@ -106,7 +106,8 @@
                 { name: "Cox", targetOffset: new THREE.Vector3(-3, 0, 1), cameraPosition: new THREE.Vector3(200, 5, -58), category: "Branding", title: "Cox & Kings", description: "A project focused on delivering high-quality digital experiences and interfaces.", link: "#" },
                 { name: "Monitor", targetOffset: new THREE.Vector3(-5, -1.5, 0), cameraPosition: new THREE.Vector3(300, 5, -52), category: "Web App", title: "Stevie Awards", description: "Advanced monitoring solutions for complex systems, providing real-time data and insights.", link: "#" },
                 { name: "Games", targetOffset: new THREE.Vector3(-5, 0, 0), cameraPosition: new THREE.Vector3(400, 5, -54), category: "Gaming", title: "Trails of Echos", description: "Interactive and engaging gaming experiences built with modern web technologies.", link: "#" },
-                { name: "vcard", targetOffset: new THREE.Vector3(-4, 3.5, 0), cameraPosition: new THREE.Vector3(500, 5, -55), category: "Utility", title: "Luxury Escapades", description: "A digital business card to share your contact information seamlessly.", link: "#" }
+                { name: "VR", targetOffset: new THREE.Vector3(-4, 0, 0), cameraPosition: new THREE.Vector3(500, 5, -50), category: "Gaming", title: "VR Defender", description: "A digital business card to share your contact information seamlessly.", link: "#" },
+                { name: "Brand", targetOffset: new THREE.Vector3(-5, 0, 2), cameraPosition: new THREE.Vector3(600, 5, -55), category: "Utility", title: "Kydlabs", description: "Built for the top performing DJs, Promoters, Venues, Festivals and Artists.", link: "#" },
             ];
                 const productNames = productsWithData.map(p => p.name);;
                 //console.log("Loaded model's children:");
