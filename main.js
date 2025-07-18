@@ -89,7 +89,7 @@
         const loader = new GLTFLoader();
         const loaderElement = document.getElementById('loader');
         loader.load(
-            'assets/models/bakedfinal12.glb',
+            'assets/models/bakedfinal15.glb',
             (gltf) => {
                 
                 model = gltf.scene;  
@@ -107,7 +107,7 @@
                 { name: "Monitor", targetOffset: new THREE.Vector3(-5, -1.5, 0), cameraPosition: new THREE.Vector3(300, 5, -52), category: "Web App", title: "Stevie Awards", description: "Advanced monitoring solutions for complex systems, providing real-time data and insights.", link: "#" },
                 { name: "Games", targetOffset: new THREE.Vector3(-5, 0, 0), cameraPosition: new THREE.Vector3(400, 5, -54), category: "Gaming", title: "Trails of Echos", description: "Interactive and engaging gaming experiences built with modern web technologies.", link: "#" },
                 { name: "VR", targetOffset: new THREE.Vector3(-4, 0, 0), cameraPosition: new THREE.Vector3(500, 5, -50), category: "Gaming", title: "VR Defender", description: "A digital business card to share your contact information seamlessly.", link: "#" },
-                { name: "Brand", targetOffset: new THREE.Vector3(-5, 0, 2), cameraPosition: new THREE.Vector3(600, 5, -55), category: "Utility", title: "Kydlabs", description: "Built for the top performing DJs, Promoters, Venues, Festivals and Artists.", link: "#" },
+                { name: "Brand", targetOffset: new THREE.Vector3(-5, 0, 2), cameraPosition: new THREE.Vector3(600, 10, -52), category: "Utility", title: "Kydlabs", description: "Built for the top performing DJs, Promoters, Venues, Festivals and Artists.", link: "#" },
             ];
                 const productNames = productsWithData.map(p => p.name);;
                 //console.log("Loaded model's children:");
@@ -223,12 +223,22 @@
         // --- DUAL GSAP ANIMATION ---
         // Animate camera position and target simultaneously for a smooth, cinematic effect.
         const tl = gsap.timeline({
-            onComplete: () => { isAnimating = false; 
+            onComplete: () => {  
                 baseCameraPosition = cameraPosition;
                 console.log(baseCameraPosition," baseCameraPosition");
                 // After the camera move, fade in the new text
                 if (duration > 0) {
+                    
                     updateTextContent(targetIndex);
+                    // We keep 'isAnimating' true for 800ms more to cover the text animation.
+                    setTimeout(() => {
+                        isAnimating = false;
+                    }, 800); // This duration should match your CSS transition time
+                    
+                }
+                else
+                {
+                    isAnimating = false;
                 }
             }
         });
